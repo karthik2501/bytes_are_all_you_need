@@ -1,0 +1,23 @@
+ Obfuscation Mapping  Permutation    φ : {0,1,2,.....,255} --> {0,1,2,....,255}
+
+Example : For simplicity lets just take that a byte value has the range {0,1,2,3} insted of {1,2,....,255}
+               x   φ(x)
+               0    3
+               1    0
+               2    1
+               3    2
+
+  Byte Value    Learned Token Embeddings(dim=192)      Reordered Token Embeddings(dim=192)
+     0                <-------e0------->                        <-------e1------->
+     1                <-------e1------->                        <-------e2------->
+     2                <-------e2------->                        <-------e3------->
+     3                <-------e3------->                        <-------e0------->
+
+           Now just pass mapped values as input to the model instead of original input
+
+Original Input =>   2 then  the embedding will be <-------e2------->
+
+Mapped input => φ(2) = 1    the embedding in reordered table for 1 is  <-------e2------->
+
+           So without retraining we can pass encrypted inputs to the model so even if any
+           adversary has access to the model inputs the privacy of user will not be compromised.
